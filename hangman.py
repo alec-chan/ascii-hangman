@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import os
 from random import randint
 import string
 max_lives=6
@@ -98,16 +98,22 @@ def obscure_word(word, correct_chars):
 
 	return "".join(obscured_word)
 
+#Had to use the os.system method because entering the ansi escape sequence doesnt
+#work in windows cmd prompt
+def clear_screen():
+	os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def game():
 	cur_lives=max_lives
 	the_word=random_word()
 	total_chars=len(the_word)
 	correct_chars=[]
 	incorrect_chars=[]
-	
+
 
 	while cur_lives>0:
-		print(chr(27) + "[2J")
+		clear_screen()
 		print "HANGMAN\n"
 		print_gallows(cur_lives)
 		print "\nStatus:"
@@ -126,9 +132,12 @@ def game():
 			if len(correct_chars)==len(the_word):
 				print "YOU WIN!"
 				return
-			
 
-
+	clear_screen()
+	print "HANGMAN\n"
+	print_gallows(cur_lives)
+	print "\nStatus:"
+	print "The word was: "+the_word
 	print "GAME OVER"
 
 
@@ -138,5 +147,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-
-
